@@ -1,12 +1,18 @@
-const express = require('express');
-const dotenv = require('dotenv');
-const authRoutes = require('./routes/auth');
-const authenticateToken = require('./middleware/authMiddleware');
-const pool = require('./db/pool');
+import express from 'express';
+import dotenv from 'dotenv';
+import authRoutes from './routes/auth.js';
+import authenticateToken from './middleware/authMiddleware.js';
+import pool from './db/pool.js';
 
 dotenv.config();
+
 const app = express();
 app.use(express.json());
+
+app.use((req, res, next) => {
+  res.setHeader('Content-Type', 'application/json; charset=utf-8');
+  next();
+});
 
 // Auth útvonalak
 app.use('/', authRoutes);

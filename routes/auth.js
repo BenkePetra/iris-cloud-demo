@@ -1,8 +1,10 @@
-const express = require('express');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const pool = require('../db/pool');
-require('dotenv').config();
+import express from 'express';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import pool from '../db/pool.js';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const router = express.Router();
 
@@ -12,7 +14,7 @@ router.post('/register', async (req, res) => {
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
     const result = await pool.query(
-      'INSERT INTO system.user (username, password) VALUES ($1, $2) RETURNING id',
+      'INSERT INTO system."user" (username, password) VALUES ($1, $2) RETURNING id',
       [username, hashedPassword]
     );
     res.status(201).json({ userId: result.rows[0].id });
@@ -27,7 +29,7 @@ router.post('/login', async (req, res) => {
   const { username, password } = req.body;
   try {
     const result = await pool.query(
-      'SELECT * FROM system.user WHERE username = $1',
+      'SELECT * FROM system."user" WHERE username = $1',
       [username]
     );
 
@@ -45,6 +47,7 @@ router.post('/login', async (req, res) => {
     const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
       expiresIn: '1h'
     });
+
     res.json({ token });
   } catch (err) {
     console.error(err);
@@ -52,4 +55,4 @@ router.post('/login', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
