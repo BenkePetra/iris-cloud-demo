@@ -19,7 +19,7 @@ spec:
         - containerPort: 3000
         env:
         - name: DB_HOST
-          value: "<rds-endpoint>" # <-- Ezt majd az RDS adatbázis címmel töltöm ki!
+          value: iris-demo-db.c9yhm4g5x7jo.us-east-1.rds.amazonaws.com # <-- Ezt majd az RDS adatbázis címmel töltöm ki!
         - name: DB_PORT
           value: "5432"
         - name: DB_USER
@@ -27,4 +27,4 @@ spec:
         - name: DB_PASSWORD
           value: "postgres"
         - name: DB_NAME
-          value: "iris"
+          value: "postgres"

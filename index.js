@@ -1,31 +1,28 @@
-import express from 'express'
-import pkg from 'pg'
-import dotenv from 'dotenv'
-dotenv.config()
+const express = require('express');
+const dotenv = require('dotenv');
+const authRoutes = require('./routes/auth');
+const authenticateToken = require('./middleware/authMiddleware');
+const pool = require('./db/pool');
 
-const { Pool } = pkg
-const app = express()
-app.use(express.json())
+dotenv.config();
+const app = express();
+app.use(express.json());
 
-const pool = new Pool({
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-})
+// Auth útvonalak
+app.use('/', authRoutes);
 
-app.get('/projects', async (req, res) => {
-  const result = await pool.query('SELECT * FROM projects')
-  res.json(result.rows)
-})
+// Védett végpont: /projects
+app.get('/projects', authenticateToken, async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM project.file');
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to fetch projects' });
+  }
+});
 
-app.post('/projects', async (req, res) => {
-  const { name, owner } = req.body
-  await pool.query('INSERT INTO projects (name, owner) VALUES ($1, $2)', [name, owner])
-  res.status(201).send('Created')
-})
-
-app.listen(3000, () => {
-  console.log('API running on http://localhost:3000')
-})
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`API running on http://localhost:${PORT}`);
+});
