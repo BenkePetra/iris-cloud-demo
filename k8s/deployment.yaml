@@ -14,12 +14,12 @@ spec:
     spec:
       containers:
       - name: iris-app
-        image: 018946425539.dkr.ecr.eu-central-1.amazonaws.com/iris-app:latest
+        image: 018946425539.dkr.ecr.us-east-1.amazonaws.com/iris-app:latest # <- ezt le kell cserélni a jóra
         ports:
         - containerPort: 3000
         env:
         - name: DB_HOST
-          value: iris-demo-db.c9yhm4g5x7jo.us-east-1.rds.amazonaws.com # <-- Ezt majd az RDS adatbázis címmel töltöm ki!
+          value: iris-db.ced408uogkjx.us-east-1.rds.amazonaws.com # <-- Ezt majd az RDS adatbázis címmel töltöm ki!
         - name: DB_PORT
           value: "5432"
         - name: DB_USER
@@ -28,3 +28,5 @@ spec:
           value: "postgres"
         - name: DB_NAME
           value: "postgres"
+        - name: JWT_SECRET
+          value: "superTitkosTokenKulcs123!"
