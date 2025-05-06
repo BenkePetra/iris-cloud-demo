@@ -1,7 +1,7 @@
 # IRIS Cloud Demo
 
 Ez a demo projekt az önálló laboratórium tárgyán belül készült.
-Egy egyszerű Node.js + PostgreSQL alapú REST API, amely egy `projects` táblát kezel.  
+Egy egyszerű Node.js + PostgreSQL alapú REST API, amely egy PostgreSQL táblákat kezel.  
 A cél a konténerizálás, majd az alkalmazás felhőbe való kihelyezése Amazon EKS + RDS környezetbe.
 
 ## Futtatás (helyileg)

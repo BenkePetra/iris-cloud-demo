@@ -14,12 +14,12 @@ spec:
     spec:
       containers:
       - name: iris-app
-        image: 018946425539.dkr.ecr.us-east-1.amazonaws.com/iris-app:latest # <- ezt le kell cserélni a jóra
+        image: 018946425539.dkr.ecr.us-east-1.amazonaws.com/iris-app
         ports:
         - containerPort: 3000
         env:
         - name: DB_HOST
-          value: iris-db.ced408uogkjx.us-east-1.rds.amazonaws.com # <-- Ezt majd az RDS adatbázis címmel töltöm ki!
+          value: database-2.ced408uogkjx.us-east-1.rds.amazonaws.com
         - name: DB_PORT
           value: "5432"
         - name: DB_USER
